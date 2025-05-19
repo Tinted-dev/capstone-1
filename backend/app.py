@@ -10,6 +10,7 @@ from routes.companies import companies_bp
 from routes.services import services_bp
 from routes.regions import regions_bp
 from routes.health import health_bp
+from seed_data import seed_database
 
 def create_app():
     app = Flask(__name__)
@@ -35,6 +36,13 @@ def create_app():
     app.register_blueprint(services_bp, url_prefix='/api/services')
     app.register_blueprint(regions_bp, url_prefix='/api/regions')
     app.register_blueprint(health_bp, url_prefix='/api/health')
+    
+    # Add CLI command for seeding database
+    @app.cli.command("seed-db")
+    def seed_db():
+        """Seed the database with sample data."""
+        seed_database()
+        print("Database seeded successfully!")
     
     return app
 
